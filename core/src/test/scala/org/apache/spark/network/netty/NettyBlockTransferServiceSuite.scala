@@ -86,10 +86,13 @@ class NettyBlockTransferServiceSuite
   private def createService(port: Int): NettyBlockTransferService = {
     val conf = new SparkConf()
       .set("spark.app.id", s"test-${getClass.getName}")
-      .set("spark.blockManager.port", port.toString)
+//      .set("spark.blockManager.port", port.toString) // RC changes
     val securityManager = new SecurityManager(conf)
     val blockDataManager = mock(classOf[BlockDataManager])
-    val service = new NettyBlockTransferService(conf, securityManager, "localhost", numCores = 1)
+//    val service = new NettyBlockTransferService(conf, securityManager, "localhost", // RC changes
+// numCores = 1) // RC changes
+    val service = new NettyBlockTransferService(conf, securityManager, "localhost",
+      "localhost", port, numCores = 1) // RC changes
     service.init(blockDataManager)
     service
   }

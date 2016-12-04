@@ -67,7 +67,11 @@ class BlockManagerReplicationSuite extends SparkFunSuite
       name: String = SparkContext.DRIVER_IDENTIFIER): BlockManager = {
     conf.set("spark.testing.memory", maxMem.toString)
     conf.set("spark.memory.offHeap.size", maxMem.toString)
-    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost", numCores = 1)
+//    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost", //RC changes
+//    numCores = 1) //RC changes
+    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost", // RC changes
+      "localhost", _port = 0, numCores = 1) // RC changes
+
     val memManager = UnifiedMemoryManager(conf, numCores = 1)
     val serializerManager = new SerializerManager(serializer, conf)
     val store = new BlockManager(name, rpcEnv, master, serializerManager, conf,

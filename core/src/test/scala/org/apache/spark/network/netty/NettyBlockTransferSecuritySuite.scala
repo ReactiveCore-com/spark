@@ -108,11 +108,17 @@ class NettyBlockTransferSecuritySuite extends SparkFunSuite with MockitoSugar wi
     when(blockManager.getBlockData(blockId)).thenReturn(blockBuffer)
 
     val securityManager0 = new SecurityManager(conf0)
-    val exec0 = new NettyBlockTransferService(conf0, securityManager0, "localhost", numCores = 1)
+//    val exec0 = new NettyBlockTransferService(conf0, securityManager0, "localhost", // RC changes
+// numCores = 1) // RC changes
+    val exec0 = new NettyBlockTransferService(conf0, securityManager0, "localhost", // RC changes
+      "localhost", 0, numCores = 1) // RC changes
     exec0.init(blockManager)
 
     val securityManager1 = new SecurityManager(conf1)
-    val exec1 = new NettyBlockTransferService(conf1, securityManager1, "localhost", numCores = 1)
+//    val exec1 = new NettyBlockTransferService(conf1, securityManager1, "localhost", // RC changes
+// numCores = 1) // RC changes
+    val exec1 = new NettyBlockTransferService(conf1, securityManager1, "localhost", // RC changes
+      "localhost", 0, numCores = 1) // RC changes
     exec1.init(blockManager)
 
     val result = fetchBlock(exec0, exec1, "1", blockId) match {

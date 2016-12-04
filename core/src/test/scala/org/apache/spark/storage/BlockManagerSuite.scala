@@ -79,8 +79,12 @@ class BlockManagerSuite extends SparkFunSuite with Matchers with BeforeAndAfterE
     conf.set("spark.testing.memory", maxMem.toString)
     conf.set("spark.memory.offHeap.size", maxMem.toString)
     val serializer = new KryoSerializer(conf)
+
     val transfer = transferService
-      .getOrElse(new NettyBlockTransferService(conf, securityMgr, "localhost", numCores = 1))
+//      .getOrElse(new NettyBlockTransferService(conf, securityMgr, "localhost", numCores = 1)) // RC changes
+      .getOrElse(new NettyBlockTransferService(conf, securityMgr, "localhost", // RC changes
+      "localhost", _port = 0, numCores = 1)) // RC changes
+
     val memManager = UnifiedMemoryManager(conf, numCores = 1)
     val serializerManager = new SerializerManager(serializer, conf)
     val blockManager = new BlockManager(name, rpcEnv, master, serializerManager, conf,
@@ -857,7 +861,9 @@ class BlockManagerSuite extends SparkFunSuite with Matchers with BeforeAndAfterE
   test("block store put failure") {
     // Use Java serializer so we can create an unserializable error.
     conf.set("spark.testing.memory", "1200")
-    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost", numCores = 1)
+//    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost", numCores = 1) // RC changes
+    val transfer = new NettyBlockTransferService(conf, securityMgr, "localhost",
+      "localhost", _port = 0, numCores = 1) // RC changes
     val memoryManager = UnifiedMemoryManager(conf, numCores = 1)
     val serializerManager = new SerializerManager(new JavaSerializer(conf), conf)
     store = new BlockManager(SparkContext.DRIVER_IDENTIFIER, rpcEnv, master,

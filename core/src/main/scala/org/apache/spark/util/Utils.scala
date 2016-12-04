@@ -24,20 +24,11 @@ import java.nio.ByteBuffer
 import java.nio.channels.Channels
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.util.{Locale, Properties, Random, UUID}
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.zip.GZIPInputStream
+import java.util.{Locale, Properties, Random, UUID}
 import javax.net.ssl.HttpsURLConnection
-
-import scala.annotation.tailrec
-import scala.collection.JavaConverters._
-import scala.collection.Map
-import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
-import scala.reflect.ClassTag
-import scala.util.Try
-import scala.util.control.{ControlThrowable, NonFatal}
 
 import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 import com.google.common.io.{ByteStreams, Files => GFiles}
@@ -47,17 +38,24 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 import org.apache.hadoop.security.UserGroupInformation
 import org.apache.log4j.PropertyConfigurator
-import org.eclipse.jetty.util.MultiException
-import org.json4s._
-import org.slf4j.Logger
-
 import org.apache.spark._
 import org.apache.spark.deploy.SparkHadoopUtil
 import org.apache.spark.internal.Logging
 import org.apache.spark.internal.config.{DYN_ALLOCATION_INITIAL_EXECUTORS, DYN_ALLOCATION_MIN_EXECUTORS, EXECUTOR_INSTANCES}
 import org.apache.spark.network.util.JavaUtils
 import org.apache.spark.serializer.{DeserializationStream, SerializationStream, SerializerInstance}
-import org.apache.spark.util.logging.RollingFileAppender
+import org.eclipse.jetty.util.MultiException
+import org.json4s._
+import org.slf4j.Logger
+
+import scala.annotation.tailrec
+import scala.collection.JavaConverters._
+import scala.collection.Map
+import scala.collection.mutable.ArrayBuffer
+import scala.io.Source
+import scala.reflect.ClassTag
+import scala.util.Try
+import scala.util.control.{ControlThrowable, NonFatal}
 
 /** CallSite represents a place in user code. It can have a short and a long form. */
 private[spark] case class CallSite(shortForm: String, longForm: String)
@@ -2175,9 +2173,12 @@ private[spark] object Utils extends Logging {
         case e: Exception if isBindCollision(e) =>
           if (offset >= maxRetries) {
             val exceptionMessage = s"${e.getMessage}: Service$serviceString failed after " +
-              s"$maxRetries retries! Consider explicitly setting the appropriate port for the " +
-              s"service$serviceString (for example spark.ui.port for SparkUI) to an available " +
-              "port or increasing spark.port.maxRetries."
+//              s"$maxRetries retries! Consider explicitly setting the appropriate port for the " +
+//              s"service$serviceString (for example spark.ui.port for SparkUI) to an available " +
+//              "port or increasing spark.port.maxRetries."
+              s"$maxRetries retries (starting from $startPort)! Consider explicitly setting " +
+              s"the appropriate port for the service$serviceString (for example spark.ui.port " +
+              s"for SparkUI) to an available port or increasing spark.port.maxRetries."
             val exception = new BindException(exceptionMessage)
             // restore original stack trace
             exception.setStackTrace(e.getStackTrace)
