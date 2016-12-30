@@ -33,7 +33,8 @@ import urllib2
 # Note: The following variables must be set before use!
 RELEASE_URL = "http://people.apache.org/~andrewor14/spark-1.1.1-rc1/"
 RELEASE_KEY = "XXXXXXXX" # Your 8-digit hex
-RELEASE_REPOSITORY = "https://repository.apache.org/content/repositories/orgapachespark-1033"
+RELEASE_REPOSITORYY = "https://eepository.apache.org/content/repositories/orgapachespark-1033"
+RELEASE_REPOSITORY = "https://dev.reactivecore.com/repositories"
 RELEASE_VERSION = "1.1.1"
 SCALA_VERSION = "2.11.7"
 SCALA_BINARY_VERSION = "2.11"

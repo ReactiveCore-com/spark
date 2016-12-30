@@ -30,24 +30,6 @@ import java.util.zip.GZIPInputStream
 import java.util.{Locale, Properties, Random, UUID}
 import javax.net.ssl.HttpsURLConnection
 
-import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
-import com.google.common.io.{ByteStreams, Files => GFiles}
-import com.google.common.net.InetAddresses
-import org.apache.commons.lang3.SystemUtils
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
-import org.apache.hadoop.security.UserGroupInformation
-import org.apache.log4j.PropertyConfigurator
-import org.apache.spark._
-import org.apache.spark.deploy.SparkHadoopUtil
-import org.apache.spark.internal.Logging
-import org.apache.spark.internal.config.{DYN_ALLOCATION_INITIAL_EXECUTORS, DYN_ALLOCATION_MIN_EXECUTORS, EXECUTOR_INSTANCES}
-import org.apache.spark.network.util.JavaUtils
-import org.apache.spark.serializer.{DeserializationStream, SerializationStream, SerializerInstance}
-import org.eclipse.jetty.util.MultiException
-import org.json4s._
-import org.slf4j.Logger
-
 import scala.annotation.tailrec
 import scala.collection.JavaConverters._
 import scala.collection.Map
@@ -56,6 +38,33 @@ import scala.io.Source
 import scala.reflect.ClassTag
 import scala.util.Try
 import scala.util.control.{ControlThrowable, NonFatal}
+
+import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
+import com.google.common.io.{ByteStreams, Files => GFiles}
+import com.google.common.net.InetAddresses
+
+import org.apache.commons.lang3.SystemUtils
+
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
+import org.apache.hadoop.security.UserGroupInformation
+
+import org.apache.log4j.PropertyConfigurator
+
+import org.apache.spark._
+import org.apache.spark.deploy.SparkHadoopUtil
+import org.apache.spark.internal.Logging
+import org.apache.spark.internal.config.DYN_ALLOCATION_INITIAL_EXECUTORS
+import org.apache.spark.internal.config.DYN_ALLOCATION_MIN_EXECUTORS
+import org.apache.spark.internal.config.EXECUTOR_INSTANCES
+import org.apache.spark.network.util.JavaUtils
+import org.apache.spark.serializer.{DeserializationStream, SerializationStream, SerializerInstance}
+
+import org.json4s._
+
+import org.slf4j.Logger
+
+import org.eclipse.jetty.util.MultiException
 
 /** CallSite represents a place in user code. It can have a short and a long form. */
 private[spark] case class CallSite(shortForm: String, longForm: String)

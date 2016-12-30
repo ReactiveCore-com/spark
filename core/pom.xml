@@ -19,13 +19,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.spark</groupId>
+    <groupId>com.reactivecore.spark</groupId>
     <artifactId>spark-parent_2.11</artifactId>
     <version>2.0.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>org.apache.spark</groupId>
+  <groupId>com.reactivecore.spark</groupId>
   <artifactId>spark-core_2.11</artifactId>
   <properties>
     <sbt.project.name>core</sbt.project.name>
@@ -60,22 +60,22 @@
       <artifactId>hadoop-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.spark</groupId>
+      <groupId>com.reactivecore.spark</groupId>
       <artifactId>spark-launcher_${scala.binary.version}</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.spark</groupId>
+      <groupId>com.reactivecore.spark</groupId>
       <artifactId>spark-network-common_${scala.binary.version}</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.spark</groupId>
+      <groupId>com.reactivecore.spark</groupId>
       <artifactId>spark-network-shuffle_${scala.binary.version}</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.spark</groupId>
+      <groupId>com.reactivecore.spark</groupId>
       <artifactId>spark-unsafe_${scala.binary.version}</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -330,7 +330,7 @@
       <version>0.10.3</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.spark</groupId>
+      <groupId>com.reactivecore.spark</groupId>
       <artifactId>spark-tags_${scala.binary.version}</artifactId>
     </dependency>
   </dependencies>
@@ -449,5 +449,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

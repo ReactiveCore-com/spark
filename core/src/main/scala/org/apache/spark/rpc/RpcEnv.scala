@@ -58,7 +58,8 @@ private[spark] object RpcEnv {
               conf: SparkConf,
               securityManager: SecurityManager,
               clientMode: Boolean): RpcEnv = {
-    val config = RpcEnvConfig(conf, name, bindAddress, advertiseAddress, port, securityManager, clientMode)
+    val config = RpcEnvConfig(conf, name, bindAddress, advertiseAddress, port,
+      securityManager, clientMode)
     new NettyRpcEnvFactory().create(config)
   }
 }

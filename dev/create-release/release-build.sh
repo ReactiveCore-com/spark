@@ -75,7 +75,7 @@ GIT_REF=${GIT_REF:-master}
 REMOTE_PARENT_DIR=${REMOTE_PARENT_DIR:-/home/$ASF_USERNAME/public_html}
 
 GPG="gpg --no-tty --batch"
-NEXUS_ROOT=https://repository.apache.org/service/local/staging
+NEXUS_ROOT=https://eepository.apache.org/service/local/staging
 NEXUS_PROFILE=d63f592e7eac0 # Profile for Spark staging uploads
 BASE_DIR=$(pwd)
 

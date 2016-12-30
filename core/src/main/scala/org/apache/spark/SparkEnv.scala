@@ -20,7 +20,11 @@ package org.apache.spark
 import java.io.File
 import java.net.Socket
 
+import scala.collection.mutable
+import scala.util.Properties
+
 import com.google.common.collect.MapMaker
+
 import org.apache.spark.annotation.DeveloperApi
 import org.apache.spark.api.python.PythonWorkerFactory
 import org.apache.spark.broadcast.BroadcastManager
@@ -30,15 +34,13 @@ import org.apache.spark.memory.{MemoryManager, StaticMemoryManager, UnifiedMemor
 import org.apache.spark.metrics.MetricsSystem
 import org.apache.spark.network.netty.NettyBlockTransferService
 import org.apache.spark.rpc.{RpcEndpoint, RpcEndpointRef, RpcEnv}
+import org.apache.spark.scheduler.LiveListenerBus
+import org.apache.spark.scheduler.OutputCommitCoordinator
 import org.apache.spark.scheduler.OutputCommitCoordinator.OutputCommitCoordinatorEndpoint
-import org.apache.spark.scheduler.{LiveListenerBus, OutputCommitCoordinator}
 import org.apache.spark.serializer.{JavaSerializer, Serializer, SerializerManager}
 import org.apache.spark.shuffle.ShuffleManager
 import org.apache.spark.storage._
 import org.apache.spark.util.{RpcUtils, Utils}
-
-import scala.collection.mutable
-import scala.util.Properties
 
 /**
  * :: DeveloperApi ::
@@ -162,7 +164,8 @@ object SparkEnv extends Logging {
      * RC changes
      */
 //    assert(conf.contains("spark.driver.host"), "spark.driver.host is not set on the driver!")
-    assert(conf.contains(DRIVER_HOST_ADDRESS), s"${DRIVER_HOST_ADDRESS.key} is not set on the driver!")
+    assert(conf.contains(DRIVER_HOST_ADDRESS),
+      s"${DRIVER_HOST_ADDRESS.key} is not set on the driver!")
     assert(conf.contains("spark.driver.port"), "spark.driver.port is not set on the driver!")
 //    val hostname = conf.get("spark.driver.host")
     val bindAddress = conf.get(DRIVER_BIND_ADDRESS)
@@ -238,8 +241,8 @@ object SparkEnv extends Logging {
      */
 //    val rpcEnv = RpcEnv.create(systemName, hostname, port, conf, securityManager,
 //      clientMode = !isDriver)
-    val rpcEnv = RpcEnv.create(systemName, bindAddress, advertiseAddress, port, conf, securityManager,
-      clientMode = !isDriver)
+    val rpcEnv = RpcEnv.create(systemName, bindAddress, advertiseAddress, port, conf,
+      securityManager, clientMode = !isDriver)
 
     // Figure out which port RpcEnv actually bound to in case the original port is 0 or occupied.
     // In the non-driver case, the RPC env's address may be null since it may not be listening
